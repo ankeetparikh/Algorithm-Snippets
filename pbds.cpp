@@ -1,4 +1,4 @@
-// NOTE: this will not compile on your computer (ext cannot be found for some reason)
+// NOTE TO SELF: this will not compile on your computer (ext cannot be found for some reason)
 // perhaps try to fix in the future
 
 #include <bits/stdc++.h>
