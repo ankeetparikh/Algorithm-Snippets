@@ -126,34 +126,15 @@ struct HopcroftKarpMatching{
 int main(){
 
 
-	// HopcroftKarpMatching h;
-	// h.n = 20;
-	// vector<pair<int, int>> edges = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {18, 19}, {1, 3}};
-	// for(pair<int, int> e : edges){
-	// 	int u, v; 
-	// 	tie(u, v) = e;
-	// 	h.g[u].pb(v);
-	// 	h.g[v].pb(u);
-	// }
-	// cout << h.maxmatching() << endl;
-
-	ios::sync_with_stdio(0);
-	cin.tie(0); cout.tie(0);
-
 	HopcroftKarpMatching h;
-	int n, m, p;
-	cin >> n >> m >> p;
-
-	h.n = n + m;
-
-	while(p--){
-		int a, b;
-		cin >> a >> b;
-		b += n;
-		h.g[a].pb(b);
-		h.g[b].pb(a);
+	h.n = 20;
+	vector<pair<int, int>> edges = {{1, 2}, {2, 3}, {3, 4}, {4, 5}, {18, 19}, {1, 3}};
+	for(pair<int, int> e : edges){
+		int u, v; 
+		tie(u, v) = e;
+		h.g[u].pb(v);
+		h.g[v].pb(u);
 	}
-
 	cout << h.maxmatching() << endl;
 
 	return 0;
