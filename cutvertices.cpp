@@ -25,8 +25,9 @@ void dfs(int x, int p){
 				iscutpt = true;
 			}
 			low[x] = min(low[x], low[u]);
-		}
-		else low[x] = min(low[x], low[u]);
+		} else {
+      low[x] = min(low[x], low[u]);
+    }
 	}
 	if(p == -1 && numchil > 1) iscutpt = true;
 	if(iscutpt){

@@ -8,7 +8,11 @@ template <class _T> inline void rd(_T &_a) {
 	while(_ch>='0' && _ch<='9')_a=(_a<<1)+(_a<<3)+_ch-'0',_ch=getchar();
 	if(_f)_a=-_a;
 }
+
 int main(){
+
+	int x;
+	rd(x);
 
 	return 0;
 }
