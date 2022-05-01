@@ -23,6 +23,9 @@ template<typename T> void setmax(T& a, T b) { a = max(a, b); };
 template<typename T> void setmin(T& a, T b) { a = min(a, b); };
 template<typename T> bool in(T lo, T v, T hi) { return lo <= v && v <= hi; };
 
+
+
+
 template<ll MOD>
 struct ModInt {
 	ll x = 0;
@@ -48,10 +51,15 @@ struct ModInt {
 		return a = a + b;
 	}
 	friend ModInt power(ModInt a, ll b) {
-		if (b == 0) return 1;
-		ModInt c = power(a, b / 2);
-		return c * c * ((b & 1) ? a : 1);
-	}
+    if (b == 0) return 1;
+    ModInt y = 1, p = 1;
+    while (b > 0) {
+      if (b & 1) y = y * a;
+      a = a * a;
+      b >>= 1;
+    }
+    return y;
+  }
 	friend ModInt inv(ModInt a) {
 		// this only works for nonzero elements
 		return power(a, MOD - 2);
