@@ -25,6 +25,12 @@ template<class T> using minheap = priority_queue<T, vector<T>, greater<T>>;
 
   Solution to:
   https://cses.fi/problemset/task/1196
+
+  Algorithm paraphrased:
+    Keep track of count[u], which is the number of paths
+    from source to u found. These paths are the shortest
+    length paths. Keep paths in a heap, pull out the path
+    with the shortest length, and add edges incrementally.
 */
 
 const int N = 1e5 + 10;

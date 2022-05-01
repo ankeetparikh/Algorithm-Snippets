@@ -4,7 +4,14 @@ typedef long double ld;
 using namespace std;
 
 const int mod = 998244353;    // 2 ^ k * c + 1
-const int g = 3;        // primitive root modulo mod 
+const int g = 3;        // primitive root modulo mod
+
+/*
+  P = 2^K * C + 1
+  g^c is a (2^k)th root of unity in Z_P
+  so your transform length must be 2^i <= 2^k
+  
+*/
  
 namespace ntt{
   int root = -1; 

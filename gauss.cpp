@@ -1,71 +1,48 @@
 #include <bits/stdc++.h>
 #define pb push_back
+#define f first
+#define s second
+typedef long long ll;
 typedef long double ld;
+typedef unsigned long long ull;
 using namespace std;
 
-const int MAXN = 256;
-const int INF  = 1e9;
-const ld eps   = 1e-9;
+const int MX = 63;
 
-// here, A is the augmented matrix
-// if we wanted to solve A'x = b, then 
-// A = [A' b]
-// so A is n x (n + 1)
- 
-int gauss(vector<vector<ld>> A, vector<ld> &x){
-	int n = A.size();
-	int m = A[0].size() - 1;
-	vector<int> loc(m, -1);
-	for(int row = 0, col = 0; row < n; col < m; col++){
-		int sel = row;
-		for(int j = row; j < n; j++){
-			if(fabs(A[j][col]) > fabs(A[sel][col])) sel = j;
-		}
-		if(fabs(A[sel][col]) < eps) continue;
-		loc[col] = row;
-		for(int j = 0; j <= m; j++) swap(A[row][j], A[sel][j]);
-		for(int i = 0; i < n; i++){
-			if(i == row) continue;
-			ld ratio = A[i][col] / A[row][col];
-			for(int j = 0; j <= m; j++){
-				A[i][j] -= A[row][j] * ratio;
-			}
-		}
-		row++;
+// computes rref
+vector<bitset<MX>> gaussmod2(vector<bitset<MX>> a, int n, int m) {
+	for (int i = 0, j = 0; i < n && j < m; j++) {
+		for (int k = i; k < n; k++) if (a[k][j]) swap(a[i], a[k]);
+		if (!a[i][j]) continue;
+		for (int k = 0; k < n; k++) if (k != i && a[k][j]) a[k] ^= a[i];
+		i++;
 	}
-	x.assign(m, 0);
-	for(int j = 0; j < m; j++){
-		if(where[j] != -1){
-			x[j] = a[where[j]][m] / a[where[j]][j];
-		}
-	}
-	//check
-	for(int i = 0; i < n; i++){
-		ld sum = 0;
-		for(int j = 0; j < m; j++){
-			sum += a[i][j] * x[j];
-		}
-		if(fabs(sum - a[i][m]) > eps){
-			return 0;
-		}
-	}
-	for(int j = 0; j < m; j++){
-		if(where[j] == -1){
-			return INF;
-		}
-	}
-	return 1;
+	return a;
 }
 
-// here, A is the augmented matrix
-// if we wanted to solve A'x = b, then 
-// A = [A' b]
-// so A is n x (n + 1)
-int gaussmod2(int n, int A[MAXN][MAXN], int x[MAXN]){
-	return 0;
-}
+int main() {
+	
+	// max xor subsequence
+	int n; cin >> n;
+	vector<ll> x(n);
+	for(ll &xx : x) cin >> xx;
+	sort(x.rbegin(), x.rend());
+	vector<bitset<MX>> a;
+	for (int i = 0; i < n; i++) {
+		bitset<MX> bs;
+		for (int j = 0; j < MX; j++) {
+			bs[MX - 1 - j] = x[i] & (1ll << j);
+		}
+		a.pb(bs);
+	}
+	a = gaussmod2(a, n, MX);
+	ll ans = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < MX; j++) {
+			if (a[i][j]) ans ^= 1ll << (MX - 1 - j);
+		}
+	}
+	cout << ans << endl;
 
-int main(){
-	gauss(0,0,NULL, NULL);
 	return 0;
 }

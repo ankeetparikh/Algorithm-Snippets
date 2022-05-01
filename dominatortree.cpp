@@ -25,43 +25,58 @@ template<typename T> void setmax(T& a, T b) { a = max(a, b); };
 template<typename T> void setmin(T& a, T b) { a = min(a, b); };
 template<typename T> bool in(T lo, T v, T hi) { return lo <= v && v <= hi; };
 
+// 0 to n - 1
 struct dsu {
-	int n;
 	vi f;
-	dsu(int _n) {
-		n = _n;
+	dsu(int n) {
 		f.resize(n);
 		iota(all(f), 0);
 	}
 	int find(int x) {
-		return x == f[x] ? x : (f[x] = find(f[x]));
+		return f[x] == x ? x : (f[x] = find(f[x]));
 	}
 	void merge(int x, int y) {
-		int xx = find(x);
-		int yy = find(y);
-		if (xx != yy) f[xx] = yy;
+		f[find(x)] = find(y);
 	}
 };
 
-#define N 100100
+// 0 to n - 1
+struct Dominator {
+	int n;
+	vvi g, rg, tree, bucket;
+	vi sdom, par, dom, label, arr, rev;
+	dsu d;
+	int T;
+	Dominator(const vvi _g): 
+		n(_g.size()),
+		g(_g), rg(n), tree(n), bucket(n),
+		sdom(n), par(n), dom(n), label(n), arr(n), rev(n),
+		d(n), 
+		T(0) {}
+	
 
+	void dfs(int u) {
+		T++;
+		arr[u] = T;
+		rev[T] = u;
+		label[T] = sdom[T] = T;
+		for (int w : g[u]) {
+			if (!arr[w]) {
+				dfs(w);
+				par[arr[w]] = arr[u];
+			}
+			rg[arr[w]].pb(arr[u]);
+		}
+	}
 
-int P[N];
+	void build(int root) {
+		dfs(root);
+		per(i, n, 0) {
+			for (int j : rg[i]) setmin(sdom[i], )
+		}
+	}
+};
 
-
-void pre(){
-	for(int i=0; i<N; i++) P[i] = i;
-}
-
-int find(int x){
-	return P[x] == x ? x : (P[x] = find(P[x]));
-}
-
-void merge(int p, int q){
-	P[find(p)] = find(q);
-}
-
-int main(){
-	pre();
+int main() {
 	return 0;
 }

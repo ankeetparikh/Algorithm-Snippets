@@ -8,10 +8,9 @@
 #include <cmath>
 #include <bitset>
 #include <set>
-#include <complex>
 #include <queue>
-#include <stack>
-
+#include <complex>
+#include <functional>
 
 #define mp make_pair
 #define pb push_back
@@ -23,16 +22,14 @@ using namespace std;
 
 
 
-
-priority_queue<pair<int,int> > pq;
 int main(){
-	pq.push(mp(0,0));
-	pq.push(mp(1,1));
-	
-	while(pq.size()){
-		pair<int, int> x = pq.top(); pq.pop();
-		cout << x.first << " " << x.second  << endl;
-	}
-	
+    
+	vector<char> a;
+	vector<char> b;
+	a.push_back('k');
+	b.push_back('g');
+	a.insert(a.end(), b.begin(), b.end());
+	string res(a.begin(), a.end());
+	cout << res << endl;
     return 0;
 }

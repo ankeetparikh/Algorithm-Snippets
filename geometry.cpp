@@ -20,12 +20,53 @@ ld eps = 1e-12;
 bool eq(ld a, ld b){
 	return fabs(b-a) < eps;
 }
+
+template<typename T>
+struct point {
+  T x, y;
+  point(){}
+  point(T xx, T yy){x = xx, y = yy;}
+  point operator+(point b) {
+    return point(x + b.x, y + b.y);
+  }
+  point operator-(point b) {
+    return point(x - b.x, y - b.y);
+  }
+  friend point operator*(T s, point a) {
+    return point(a.x * s, a.y * s);
+  }
+  T operator^(point b) {
+    return x * b.y - y * b.x;
+  }
+  bool operator<(const point b) const{
+    if(x!=b.x) return x < b.x;
+    return y < b.y;
+  }
+  bool operator==(const point &b) const{
+    return x == b.x && y == b.y;
+  }
+};
+
+{
+    pointR get_intersection(pointR a, pointR b, pointR c, pointR d) {
+      // doesn't check edge cases when line segments don't intersect
+      pointR r = b - a;
+      pointR s = d - c;
+
+      auto t = ((c - a) ^ s) / (r ^ s);
+
+      return a + (t * r);
+    }
+
+}
+
+// don't use this one, use the one above and specify the generic type (rat is in the fraction.cpp class if needed)
 struct point{
 	ll x=0, y=0;
 	point(){x = 0; y = 0;}
 	point(ll xx, ll yy){ x = xx; y = yy;}
 	point operator+(point b){ return point(x+b.x, y+b.y);}
-	point operator-(point b){ return opint(x-b.x, y-b.y);}
+	point operator-(point b){ return point(x-b.x, y-b.y);}
 	ll operator*(point b){ return x*b.x + y*b.y;}
 	ll operator^(point b){ return x*b.y - y*b.x;}
 };
@@ -52,7 +93,7 @@ struct line{
 	line(point u, point v){
 		a = v.y - u.y;
 		b = u.x - v.x;
-		c = - a * u.x - b * u.y;
+		c = -a * u.x - b * u.y;
 	}
 	ll operator()(point p){
 		return a * p.x + b * p.y + c;

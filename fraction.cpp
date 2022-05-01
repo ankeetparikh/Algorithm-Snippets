@@ -1,6 +1,75 @@
 #include <iostream>
+typedef long long ll;
 
 using namespace std;
+
+template<typename T>
+T gcd(T a, T b) {
+  return b == 0 ? a : gcd(b, a % b);
+}
+
+template<typename T>
+struct rat {
+  T a, b;
+  rat() {a = 0, b = 1;}
+  rat(T aa) {
+    a = aa;
+    b = 1;
+  }
+  rat(T aa, T bb) {
+    a = aa;
+    b = bb;
+    assert(b != 0);
+    if (b < 0) {
+      b = -b;
+      a = -a;
+    }
+    T g = gcd(a, b);
+    a /= g;
+    b /= g;
+  }
+
+  rat operator+(const rat& y) const {
+    T g = gcd(b, y.b);
+    return rat(a * (y.b / g) + (b / g) * y.a, b / g * y.b);
+  }
+
+  rat operator-(const rat& y) const {
+    T g = gcd(b, y.b);
+    return rat(a * (y.b / g) - (b / g) * y.a, b / g * y.b);
+  }
+
+  rat operator*(const rat& y) const {
+    return rat(a * y.a, b * y.b);
+  }
+
+  rat operator/(const rat& y) const {
+    assert(y.a != 0);
+    return rat(a * y.b, b * y.a);
+  }
+
+  friend rat operator/(const ll z, const rat& y) {
+    return rat(z * y.b, y.a);
+  }
+
+  bool operator<(const rat y) const {
+    return a * y.b - b * y.a < 0;
+  }
+  bool operator>(const rat y) const {
+    return a * y.b - b * y.a > 0;
+  }
+  bool operator!=(const rat y) const {
+    return a != y.a || b != y.b;
+  }
+  bool operator==(const rat y) const {
+    return a == y.a && b == y.b;
+  }
+  friend ostream& operator<<(ostream& os, const rat &x) {
+    os << x.a << "/" << x.b << " ";
+    return os;
+  }
+};
+
 
 class Fraction{
 	private:

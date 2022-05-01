@@ -103,7 +103,7 @@ int main(){
 	}
 	int mts = 0;
 	while(bfs()){
-		for(int i = 1 ; i <= leftsz; i++){
+		for(int i =1 ; i <= leftsz; i++){
 			if(match[i] == NIL && dfs(i)){
 				mts++;
 			}

@@ -59,8 +59,60 @@ ll get(int nind, int ns, int ne){
     if(qs <= ns && ne <= qe) return st[nind];
     int mid = (ns + ne) / 2;
     return get(nind*2+1, ns, mid) | get(nind*2+2, mid+1, ne);
-
 }
+
+
+template<int SZ>
+struct LazySegTree {
+  const ll inf = 1e18;
+  ll tree[4 * SZ];
+  ll lazy[4 * SZ];
+
+  LazySegTree() {
+    for (int i = 0; i < 4 * SZ; i++) {
+      tree[i] = -inf;
+      lazy[i] = 0;
+    }
+  }
+
+  void push(int node, int lo, int hi) {
+    if (lazy[node]) {
+      tree[node] += lazy[node];
+      if (lo != hi) {
+        lazy[2 * node + 1] += lazy[node];
+        lazy[2 * node + 2] += lazy[node];
+      }
+    }
+    lazy[node] = 0;
+  }
+
+  // add delta to each of [L..R]
+  void add(int node, int lo, int hi, int L, int R, ll delta) {
+    push(node, lo, hi);
+    if (hi < L || R < lo) return;
+    if (L <= lo && hi <= R) {
+      lazy[node] += delta;
+      push(node, lo, hi);
+      return;
+    }
+    int mid = (lo + hi) / 2;
+    add(2 * node + 1, lo, mid, L, R, delta);
+    add(2 * node + 2, mid + 1, hi, L, R, delta);
+    tree[node] = max(tree[2 * node + 1], tree[2 * node + 2]);
+  }
+
+  // max on [L..R]
+  ll get(int node, int lo, int hi, int L, int R) {
+    push(node, lo, hi);
+    if (hi < L || R < lo) return -inf;
+    if (L <= lo && hi <= R) {
+      return tree[node];
+    }
+    int mid = (lo + hi) / 2;
+    return max(get(node, lo, mid, L, R), get(node, mid + 1, hi, L, R));
+  }
+
+};
 
 int main(){
     scanf("%d%d", &n, &m);

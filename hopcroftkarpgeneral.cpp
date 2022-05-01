@@ -6,6 +6,9 @@ typedef long double ld;
 
 using namespace std;
 
+// NOTE: you might as well run dinic's algorithm
+// b/c it has the same complexity on bipartite graphs
+// and it is easier to understand
 // for general bipartite graph
 // if input graph is not bipartite, then an error message is printed 
 // to the screen and the entire program is terminated.

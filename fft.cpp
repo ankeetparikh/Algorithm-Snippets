@@ -1,8 +1,27 @@
 #include <bits/stdc++.h>
+#define f first
+#define s second
+#define pb push_back
+#define pii pair<int, int>
+#define endl '\n'
+#define vi vector<int>
+#define vvi vector<vi>
+#define pii pair<int, int>
+#define vpii vector<pii>
+#define vvpii vector<vpii>
 typedef long long ll;
 typedef long double ld;
-#define pb push_back
 using namespace std;
+template<class T> using minheap = priority_queue<T, vector<T>, greater<T>>;
+template<typename T> void setmax(T& a, T b) { a = max(a, b); };
+template<typename T> void setmin(T& a, T b) { a = min(a, b); };
+template<typename T> bool in(T v, T lo, T hi) { return lo <= v && v <= hi; };
+
+typename<class T>
+struct Complex {
+  T a, b;
+  
+};
 
 typedef complex<ld> cld;
 const double pi = acos(-1.0);
@@ -56,10 +75,16 @@ vector<int> multiply(vector<int> &a, vector<int> &b){
 }
 
 int main(){
-	vector<int> a = {1,1,2,2};
-	vector<int> b = {1,1};
-	vector<int> c = multiply(a, a);
-	for(int u : c ) cout << u << " ";
-	cout << endl;
+  srand(time(NULL));
+	const int N = 1e6;
+  vi a(N), b(N);
+  for (int i = 0; i < N; i++) {
+    a[i] = rand();
+    b[i] = rand();
+  }
+  ld start = clock();
+  vi product = multiply(a, b);
+  ld finish = clock();
+  cout << "time taken: " << (finish - start) / CLOCKS_PER_SEC << " seconds" << endl;
 	return 0;
 }

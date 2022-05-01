@@ -25,6 +25,33 @@ using namespace std;
 const ld pi = acos(-1.0);
 const ld e  = exp(1.0);
 
+struct RMQ {
+  int n, L;
+  vi a;
+  vvi table;
+
+  RMQ(vi _a) {
+    a = _a;
+    n = a.size();
+    L = 32 - __builtin_clz(n);
+    table.assign(L, vi(n, 0));
+    rep(i, 0, n) {
+      table[0][i] = a[i];
+    }
+    rep(j, 1, L) {
+      for (int i = 0; i + (1 << j) - 1 < n; i++) {
+        table[j][i] = min(table[j - 1][i], table[j - 1][i + (1 << (j - 1))]);
+      }
+    }
+  }
+
+  int get_min(int L, int R) {
+    int d = R - L + 1;
+    int j = 31 - __builtin_clz(d);
+    return min(table[j][L], table[j][R - (1 << j) + 1]);
+  }
+};
+
 int n;
 int q;
 int a[100010];
