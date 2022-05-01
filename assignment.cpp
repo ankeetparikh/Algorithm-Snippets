@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <concepts>
 #define f first
 #define s second
 #define pb push_back
@@ -41,27 +40,26 @@ template<typename T> bool in(T lo, T v, T hi) { return lo <= v && v < hi; };
   Complexity: O(n^2 * m)
 
   http://zafar.cc/2017/7/19/hungarian-algorithm/
+  Check: https://judge.yosupo.jp/submission/87924
 */
 
 struct Assignment {
   const ll INF = 1e18;
 
-  vpll pairings;
+  vpll pairings; // this will have size m!
   ll mincost;
 
-  void solve(vvl _a) { // _a is zero-indexed and rectangular
+  /* 
+    _a is zero-indexed and rectangular (n may differ from m)
+    works with negative edge weights too
+  */
+  void solve(vvl _a) { 
     int n = _a.size();
     int m = _a[0].size();
 
     vvl a(n + 1, vl(m + 1, 0));
     for (int i = 1; i <= n; i++) {
       copy(_a[i - 1].begin(), _a[i - 1].end(), a[i].begin() + 1);
-    }
-
-    for (int i = 0; i <= n; i++) {
-      for (int j = 0; j <= m; j++) {
-        cout << a[i][j] << " \n"[j == m];
-      }
     }
 
     vl u(n + 1);
@@ -114,13 +112,24 @@ struct Assignment {
 
 int main() {
 
+  int N;
+  cin >> N;
+  vvl _a(N, vl(N, 0));
+  for (int i = 0; i < N; i++) {
+    for (int j = 0; j < N; j++) {
+      cin >> _a[i][j];
+    }
+  }
+
   Assignment A;
-
-  vvl a = {{1, 2}, {1, 4}};
-
-  A.solve(a);
-
+  A.solve(_a);
   cout << A.mincost << endl;
+  vl matches(N);
+  for (int i = 0; i < N; i++) 
+    matches[A.pairings[i].f] = A.pairings[i].s;
+  for (int i = 0; i < N; i++) 
+    cout << matches[i] << " \n"[i == N - 1];
+
 
   return 0;
 }
